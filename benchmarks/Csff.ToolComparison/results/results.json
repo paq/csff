@@ -1,0 +1,508 @@
+{
+  "date": "2026-11-20",
+  "machine": {
+    "model": "Mac mini",
+    "cpu": "Apple M6",
+    "cores": "12 (2 Super, 4 Performance, and 6 Efficiency)",
+    "memory": "32 GB",
+    "os": "macOS 27.0.1",
+    "architecture": "Arm64"
+  },
+  "tools": {
+    "csff": "0.1.0",
+    "csharpier": "1.4.0",
+    "dotnet-format": "11.0.100",
+    "dotnet-sdk": "11.0.100"
+  },
+  "settings": {
+    "runs": 5,
+    "warmups": 1,
+    "dotnetFormatThreadStackBytes": 67108864
+  },
+  "repositories": [
+    {
+      "name": "dotnet/runtime",
+      "commit": "a33eebbe8e6cc76c22f30ac9b9f166ac6469d088",
+      "files": 33315,
+      "tools": {
+        "csff": {
+          "median": 1.5923353,
+          "seconds": [
+            1.6095,
+            1.6145,
+            1.5026,
+            1.5813,
+            1.5923
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 33148 C# files"
+        },
+        "csharpier": {
+          "median": 61.2465495,
+          "seconds": [
+            62.2422,
+            59.301,
+            61.8766,
+            58.5827,
+            61.2465
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 33147 files"
+        },
+        "dotnet-format": {
+          "median": 104.2513041,
+          "seconds": [
+            106.6741,
+            104.1604,
+            104.6711,
+            102.7816,
+            104.2513
+          ],
+          "exitCodes": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "name": "dotnet/roslyn",
+      "commit": "c6dae7dd4f51cef1680c6b23ab614394d6989a69",
+      "files": 18322,
+      "tools": {
+        "csff": {
+          "median": 0.672018,
+          "seconds": [
+            0.6655,
+            0.6999,
+            0.663,
+            0.674,
+            0.672
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 18163 C# files"
+        },
+        "csharpier": {
+          "median": 27.646082,
+          "seconds": [
+            28.4641,
+            30.5136,
+            27.3738,
+            27.6461,
+            27.6236
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 18199 files"
+        },
+        "dotnet-format": {
+          "median": 25.909398,
+          "seconds": [
+            25.8987,
+            28.4675,
+            26.6622,
+            25.9094,
+            25.2414
+          ],
+          "exitCodes": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "name": "dotnet/aspnetcore",
+      "commit": "d7870e7ec8da214eb96f96f5512aad0d89bfef11",
+      "files": 10806,
+      "tools": {
+        "csff": {
+          "median": 0.2775742,
+          "seconds": [
+            0.2773,
+            0.2749,
+            0.2784,
+            0.2799,
+            0.2776
+          ],
+          "exitCodes": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "summary": "Formatted 10769 C# files"
+        },
+        "csharpier": {
+          "median": 10.6787542,
+          "seconds": [
+            10.2119,
+            9.8391,
+            10.6788,
+            10.8379,
+            11.8944
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 10769 files"
+        },
+        "dotnet-format": {
+          "median": 14.8059044,
+          "seconds": [
+            15.2891,
+            12.8315,
+            14.2555,
+            14.8335,
+            14.8059
+          ],
+          "exitCodes": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "name": "dotnet/efcore",
+      "commit": "8859f78f10d013a06385c5817ab318414399f66f",
+      "files": 5874,
+      "tools": {
+        "csff": {
+          "median": 0.1864382,
+          "seconds": [
+            0.1892,
+            0.1865,
+            0.1863,
+            0.1864,
+            0.1824
+          ],
+          "exitCodes": [
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "summary": "Formatted 5857 C# files"
+        },
+        "csharpier": {
+          "median": 11.2058668,
+          "seconds": [
+            11.2059,
+            11.4038,
+            13.3359,
+            11.1012,
+            10.881
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 5857 files"
+        },
+        "dotnet-format": {
+          "median": 19.7090691,
+          "seconds": [
+            19.7091,
+            19.5797,
+            19.8104,
+            19.1042,
+            20.0567
+          ],
+          "exitCodes": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "name": "dotnet/maui",
+      "commit": "14c3ea206300852bd96d1504866f3b468901742d",
+      "files": 10169,
+      "tools": {
+        "csff": {
+          "median": 0.2788414,
+          "seconds": [
+            0.2878,
+            0.2769,
+            0.2788,
+            0.2766,
+            0.2797
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 10158 C# files"
+        },
+        "csharpier": {
+          "median": 8.1187842,
+          "seconds": [
+            7.9762,
+            7.8559,
+            8.1188,
+            8.1693,
+            8.1257
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 10158 files"
+        },
+        "dotnet-format": {
+          "median": 10.0994916,
+          "seconds": [
+            10.2179,
+            9.2242,
+            10.0995,
+            7.3532,
+            10.3168
+          ],
+          "exitCodes": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "name": "dotnet/winforms",
+      "commit": "b62951ba1586c89e30a199d41286817c86ecf649",
+      "files": 4430,
+      "tools": {
+        "csff": {
+          "median": 0.1943122,
+          "seconds": [
+            0.1956,
+            0.1918,
+            0.1944,
+            0.1943,
+            0.1884
+          ],
+          "exitCodes": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "summary": "Formatted 4365 C# files"
+        },
+        "csharpier": {
+          "median": 9.6672045,
+          "seconds": [
+            9.6672,
+            9.7337,
+            10.7208,
+            9.1386,
+            9.4468
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 4365 files"
+        },
+        "dotnet-format": {
+          "median": 14.7161386,
+          "seconds": [
+            14.1003,
+            14.8657,
+            12.5781,
+            14.7161,
+            15.2293
+          ],
+          "exitCodes": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    },
+    {
+      "name": "dotnet/wpf",
+      "commit": "d1100839f724d4feb24e80a1998486c9a027685e",
+      "files": 4541,
+      "tools": {
+        "csff": {
+          "median": 0.2818715,
+          "seconds": [
+            0.2979,
+            0.2772,
+            0.2886,
+            0.2819,
+            0.2758
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 4530 C# files"
+        },
+        "csharpier": {
+          "median": 12.6543118,
+          "seconds": [
+            11.7039,
+            12.5542,
+            12.6543,
+            13.5731,
+            13.0084
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 4530 files"
+        },
+        "dotnet-format": {
+          "median": 18.0426476,
+          "seconds": [
+            18.4537,
+            18.0426,
+            17.7404,
+            18.1592,
+            17.5513
+          ],
+          "exitCodes": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "skipped": [
+            "src/Microsoft.DotNet.Wpf/src/WpfGfx/codegen/mcg/generators/ManagedStruct.cs",
+            "src/Microsoft.DotNet.Wpf/src/WpfGfx/codegen/mcg/helpers/CollectionHelper.cs"
+          ]
+        }
+      }
+    },
+    {
+      "name": "dotnet/BenchmarkDotNet",
+      "commit": "0970e24c04628716d06e3969294a4f770e6f661d",
+      "files": 1184,
+      "tools": {
+        "csff": {
+          "median": 0.0339252,
+          "seconds": [
+            0.0338,
+            0.0341,
+            0.0336,
+            0.0339,
+            0.0354
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 1183 C# files"
+        },
+        "csharpier": {
+          "median": 1.2236637,
+          "seconds": [
+            1.2083,
+            1.2444,
+            1.2341,
+            1.2226,
+            1.2237
+          ],
+          "exitCodes": [
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "summary": "Formatted 1183 files"
+        },
+        "dotnet-format": {
+          "median": 1.0517134,
+          "seconds": [
+            1.0505,
+            1.0517,
+            1.0875,
+            1.0699,
+            1.0372
+          ],
+          "exitCodes": [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Diagnostics.fs" />
+    <Compile Include="CommentContent.fs" />
+    <Compile Include="DeclaredTransformations.fs" />
+    <Compile Include="TokenPreservation.fs" />
+    <Compile Include="TriviaPreservation.fs" />
+    <Compile Include="SyntaxPreservation.fs" />
+    <Compile Include="RoundTrip.fs" />
+    <Compile Include="OutputConfigurations.fs" />
+    <Compile Include="FrozenOutput.fs" />
+    <Compile Include="GrammarCases.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Csff.Lexer/Csff.Lexer.fsproj" />
+    <ProjectReference Include="../Csff.Parser/Csff.Parser.fsproj" />
+    <ProjectReference Include="../Csff.Printer/Csff.Printer.fsproj" />
+  </ItemGroup>
+</Project>

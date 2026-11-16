@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ParseStats.fs" />
+    <Compile Include="SyntaxTree.fs" />
+    <Compile Include="ExpressionSyntax.fs" />
+    <Compile Include="InterpolationLexer.fs" />
+    <Compile Include="Parser.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Csff.Lexer/Csff.Lexer.fsproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,35 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net11.0</TargetFramework>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <WarnOn>1182;3390;3517;3559</WarnOn>
+    <WarningLevel>5</WarningLevel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsPackable>false</IsPackable>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <Tailcalls>false</Tailcalls>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <ReflectionFree Condition="'$(PublishAot)' == 'true'">true</ReflectionFree>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Authors>Takumi Kuroda</Authors>
+    <Copyright>Copyright (c) 2026 Takumi Kuroda</Copyright>
+    <RepositoryUrl>https://github.com/paq/csff</RepositoryUrl>
+    <RepositoryBranch>main</RepositoryBranch>
+    <PackageProjectUrl>https://github.com/paq/csff</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <FsDocsLicenseLink>https://github.com/paq/csff/blob/main/LICENSE</FsDocsLicenseLink>
+    <FsDocsReleaseNotesLink>https://github.com/paq/csff/commits/main</FsDocsReleaseNotesLink>
+    <FsDocsTheme>default</FsDocsTheme>
+    <FsDocsNavbarPosition>fixed-left</FsDocsNavbarPosition>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference
+      Include="Ionide.Analyzers"
+      PrivateAssets="all"
+      ExcludeAssets="all"
+      GeneratePathProperty="true"
+    />
+  </ItemGroup>
+</Project>

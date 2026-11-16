@@ -1,0 +1,29 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".config/dotnet-tools.json" />
+    <File Path=".editorconfig" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Build.targets" />
+    <File Path="Directory.Packages.props" />
+    <File Path="Directory.Solution.targets" />
+    <File Path="global.json" />
+    <File Path="nuget.config" />
+    <File Path="README.md" />
+  </Folder>
+  <Folder Name="/benchmarks/">
+    <Project Path="benchmarks/Csff.Benchmarks/Csff.Benchmarks.fsproj" />
+    <Project Path="benchmarks/Csff.ToolComparison/Csff.ToolComparison.fsproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Csff.Cli/Csff.Cli.fsproj" />
+    <Project Path="src/Csff.Conformance/Csff.Conformance.fsproj" />
+    <Project Path="src/Csff.Lexer/Csff.Lexer.fsproj" />
+    <Project Path="src/Csff.Parser/Csff.Parser.fsproj" />
+    <Project Path="src/Csff.Printer/Csff.Printer.fsproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Csff.Gate/Csff.Gate.fsproj" />
+    <Project Path="tests/Csff.Oracles/Csff.Oracles.fsproj" />
+    <Project Path="tests/Csff.Tests/Csff.Tests.fsproj" />
+  </Folder>
+</Solution>

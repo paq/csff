@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="StackGuard.fs" />
+    <Compile Include="SyntaxKinds.fs" />
+    <Compile Include="Tokens.fs" />
+    <Compile Include="Keywords.fs" />
+    <Compile Include="Lexer.fs" />
+  </ItemGroup>
+</Project>

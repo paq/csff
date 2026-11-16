@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="DocumentStats.fs" />
+    <Compile Include="Document.fs" />
+    <Compile Include="Printer.fs" />
+    <Compile Include="Preprocessor.fs" />
+    <Compile Include="SyntaxChildren.fs" />
+    <Compile Include="SyntaxPrinter.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Csff.Lexer/Csff.Lexer.fsproj" />
+    <ProjectReference Include="../Csff.Parser/Csff.Parser.fsproj" />
+  </ItemGroup>
+</Project>

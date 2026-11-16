@@ -1,0 +1,66 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
+    <OptimizationPreference>Speed</OptimizationPreference>
+    <TrimmerSingleWarn>false</TrimmerSingleWarn>
+    <IlcTreatWarningsAsErrors>false</IlcTreatWarningsAsErrors>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="RunStats.fs" />
+    <Compile Include="Glob.fs" />
+    <Compile Include="Yaml.fs" />
+    <Compile Include="Configuration.fs" />
+    <Compile Include="Discovery.fs" />
+    <Compile Include="Cache.fs" />
+    <Compile Include="Formatter.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Csff.Printer/Csff.Printer.fsproj" />
+    <ProjectReference Include="../Csff.Conformance/Csff.Conformance.fsproj" />
+  </ItemGroup>
+  <Target Name="CsffRuntimeNotices" AfterTargets="Publish" Condition="'$(PublishAot)' == 'true'">
+    <PropertyGroup>
+      <_CsffRuntimeNotices>$([MSBuild]::EnsureTrailingSlash('$(RuntimePackagePath)'))THIRD-PARTY-NOTICES.TXT</_CsffRuntimeNotices>
+    </PropertyGroup>
+    <Error
+      Condition="'$(RuntimePackagePath)' == '' or !Exists('$(_CsffRuntimeNotices)')"
+      Text="The Native AOT runtime package has no THIRD-PARTY-NOTICES.TXT at '$(_CsffRuntimeNotices)'."
+    />
+    <Copy SourceFiles="$(_CsffRuntimeNotices)" DestinationFiles="$(PublishDir)DOTNET-THIRD-PARTY-NOTICES.TXT" />
+  </Target>
+  <Target Name="StampCsff" AfterTargets="Publish">
+    <Touch Files="$(PublishDir)csff.stamp" AlwaysCreate="true" />
+  </Target>
+  <PropertyGroup>
+    <CsffBaseVersion>0.1.0</CsffBaseVersion>
+    <CsffNativeDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../out/csff/bin'))</CsffNativeDirectory>
+  </PropertyGroup>
+  <Target Name="_CollectNativeInputs">
+    <ItemGroup>
+      <_CsffNativeInput
+        Include="../Csff.Cli/**/*.fs;../Csff.Lexer/**/*.fs;../Csff.Parser/**/*.fs;../Csff.Printer/**/*.fs;../Csff.Conformance/**/*.fs"
+        Exclude="../*/bin/**;../*/obj/**"
+      />
+      <_CsffNativeInput Include="../Csff.Cli/*.fsproj;../Csff.Lexer/*.fsproj;../Csff.Parser/*.fsproj;../Csff.Printer/*.fsproj;../Csff.Conformance/*.fsproj" />
+      <_CsffNativeInput Include="../../Directory.*.props;../../Directory.Build.targets;../../nuget.config;../../global.json" />
+      <_CsffNativeInput Include="../../LICENSE;../../THIRD-PARTY-NOTICES.txt" />
+    </ItemGroup>
+  </Target>
+  <Target
+    Name="PublishNative"
+    DependsOnTargets="_CollectNativeInputs"
+    Inputs="@(_CsffNativeInput)"
+    Outputs="$(CsffNativeDirectory)/csff.stamp"
+  >
+    <Exec
+      Command="dotnet publish &quot;$(MSBuildProjectFullPath)&quot; --configuration Release -p:PublishAot=true --output &quot;$(CsffNativeDirectory)&quot; --disable-build-servers -maxcpucount:1 --nologo --verbosity quiet"
+    />
+  </Target>
+</Project>

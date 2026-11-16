@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" />
+  </ItemGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Fixtures.fs" />
+    <Compile Include="Pipeline.fs" />
+    <Compile Include="Benchmarks.fs" />
+    <Compile Include="Gate.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Fixtures/*.cs" LogicalName="Fixtures.%(Filename).cs" />
+    <None Include="allocations.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <AssemblyMetadata Include="ProjectDirectory" Value="$(MSBuildProjectDirectory)" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Csff.Lexer/Csff.Lexer.fsproj" />
+    <ProjectReference Include="../../src/Csff.Parser/Csff.Parser.fsproj" />
+    <ProjectReference Include="../../src/Csff.Printer/Csff.Printer.fsproj" />
+    <ProjectReference Include="../../src/Csff.Conformance/Csff.Conformance.fsproj" />
+  </ItemGroup>
+</Project>

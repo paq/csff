@@ -1,0 +1,9 @@
+src/coreclr/tools/Common/JitInterface/CorInfoImpl.cs: formatting could not be proven to preserve the C# syntax (symbols: SUPPORT_JIT); the file is unchanged.
+src/libraries/System.Diagnostics.StackTrace/tests/StackTraceTests.cs: formatting could not be proven to preserve the C# syntax (default configuration); the file is unchanged.
+src/libraries/System.Runtime/tests/System.Dynamic.Runtime.Tests/Dynamic.Declarations/Conformance.dynamic.declarations.formalParameter.Methods.cs: formatting could not be proven to preserve the C# syntax (default configuration); the file is unchanged.
+src/libraries/System.Runtime/tests/System.Dynamic.Runtime.Tests/Dynamic.Declarations/Conformance.dynamic.declarations.returnType.methods.cs: formatting could not be proven to preserve the C# syntax (default configuration); the file is unchanged.
+src/libraries/System.Runtime/tests/System.Dynamic.Runtime.Tests/Dynamic.Unsafe/Conformance.dynamic.unsafe.basic.cs: formatting could not be proven to preserve the C# syntax (default configuration); the file is unchanged.
+src/mono/wasm/host/Options.cs: formatting could not be proven to preserve the C# syntax (symbols: PCL); the file is unchanged.
+src/tests/Interop/StructMarshalling/PInvoke/Helper.cs: formatting could not be proven to preserve the C# syntax (default configuration); the file is unchanged.
+src/tests/Interop/StructMarshalling/ReversePInvoke/Helper.cs: formatting could not be proven to preserve the C# syntax (default configuration); the file is unchanged.
+src/tests/Interop/StructMarshalling/ReversePInvoke/MarshalSeqStruct/DelegatePInvoke/DelegatePInvokeTest.cs: formatting could not be proven to preserve the C# syntax (default configuration); the file is unchanged.

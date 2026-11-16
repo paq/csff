@@ -1,0 +1,12 @@
+src/libraries/System.Reflection.Emit/tests/TypeBuilder/TypeBuilderInstantiationErrorMessageTests.cs: Incomplete C# syntax at character 1596 (CloseBraceToken).
+src/libraries/System.Text.Json/tests/System.Text.Json.Tests/TrimmingTests/Collections/ICollection.cs: Incomplete C# syntax at character 554 (CloseParenToken).
+src/mono/mono/tests/array-coop-2.cs: Incomplete C# syntax at character 1 (IdentifierToken).
+src/mono/wasm/testassets/EntryPoints/CultureResource.cs: Incomplete C# syntax at character 1171 (CloseParenToken).
+src/mono/wasm/testassets/EntryPoints/MyDllImport.cs: Incomplete C# syntax at character 64 (IdentifierToken).
+src/tests/JIT/jit64/opt/cse/HugeArray.cs: source or formatted output exceeds the 64 MiB syntax verification limit; the file is unchanged.
+src/tests/JIT/jit64/opt/cse/HugeArray1.cs: source or formatted output exceeds the 64 MiB syntax verification limit; the file is unchanged.
+src/tests/JIT/jit64/opt/cse/HugeField1.cs: source or formatted output exceeds the 64 MiB syntax verification limit; the file is unchanged.
+src/tests/JIT/jit64/opt/cse/HugeField2.cs: source or formatted output exceeds the 64 MiB syntax verification limit; the file is unchanged.
+src/tests/JIT/jit64/opt/cse/hugeSimpleExpr1.cs: source or formatted output exceeds the 64 MiB syntax verification limit; the file is unchanged.
+src/tests/JIT/jit64/opt/cse/hugeexpr1.cs: source or formatted output exceeds the 64 MiB syntax verification limit; the file is unchanged.
+src/tests/Loader/classloader/StaticVirtualMethods/DiamondShape/svm_diamondshape.cs: Incomplete C# syntax at character 3815 (OpenBraceToken).

@@ -1,0 +1,47 @@
+<Project>
+  <PropertyGroup>
+    <CsffDocsProjects>src/Csff.Lexer/Csff.Lexer.fsproj src/Csff.Parser/Csff.Parser.fsproj src/Csff.Printer/Csff.Printer.fsproj src/Csff.Conformance/Csff.Conformance.fsproj</CsffDocsProjects>
+  </PropertyGroup>
+
+  <Target Name="Native">
+    <MSBuild Projects="src/Csff.Cli/Csff.Cli.fsproj" Targets="PublishNative" />
+  </Target>
+
+  <Target Name="Lint" DependsOnTargets="Build">
+    <MSBuild Projects="src/Csff.Lexer/Csff.Lexer.fsproj" Targets="GetIonideAnalyzersPath">
+      <Output TaskParameter="TargetOutputs" PropertyName="IonideAnalyzersPath" />
+    </MSBuild>
+    <PropertyGroup>
+      <IonideAnalyzersDirectory>$(IonideAnalyzersPath)/analyzers/dotnet/fs</IonideAnalyzersDirectory>
+    </PropertyGroup>
+    <Error
+      Condition="'$(IonideAnalyzersPath)' == '' or !Exists('$(IonideAnalyzersDirectory)')"
+      Text="The Ionide.Analyzers pack is not restored at '$(IonideAnalyzersDirectory)'. Run `dotnet build -t:Lint`, which restores first."
+    />
+    <MakeDir Directories="$(MSBuildThisFileDirectory)out" />
+    <Exec
+      Command="dotnet fsharp-analyzers --project @(ProjectReference->'&quot;%(FullPath)&quot;', ' ') --analyzers-path &quot;$(IonideAnalyzersDirectory)&quot; --treat-as-error GRA001 GRA002 GRA003 GRA004 --report out/csff-analyzers.sarif"
+      WorkingDirectory="$(MSBuildThisFileDirectory)"
+      StandardOutputImportance="high"
+    />
+  </Target>
+
+  <Target Name="Docs">
+    <MSBuild Projects="src/Csff.Conformance/Csff.Conformance.fsproj" Targets="Build" Properties="Configuration=Release" />
+    <MakeDir Directories="$(MSBuildThisFileDirectory)out/docs" />
+    <Exec
+      Command="dotnet fsdocs build --clean --strict --output out/docs --properties Configuration=Release --projects $(CsffDocsProjects)"
+      WorkingDirectory="$(MSBuildThisFileDirectory)"
+      StandardOutputImportance="high"
+    />
+  </Target>
+
+  <Target Name="DocsWatch">
+    <MSBuild Projects="src/Csff.Conformance/Csff.Conformance.fsproj" Targets="Build" Properties="Configuration=Release" />
+    <Exec
+      Command="dotnet fsdocs watch --output out/docs-watch --properties Configuration=Release --projects $(CsffDocsProjects)"
+      WorkingDirectory="$(MSBuildThisFileDirectory)"
+      StandardOutputImportance="high"
+    />
+  </Target>
+</Project>

@@ -1,0 +1,3 @@
+<Project>
+  <Target Name="GetIonideAnalyzersPath" Returns="$(PkgIonide_Analyzers)" />
+</Project>

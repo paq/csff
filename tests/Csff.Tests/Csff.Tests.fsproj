@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" />
+  </ItemGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Checkout.fs" />
+    <Compile Include="Subprocess.fs" />
+    <Compile Include="LexerTests.fs" />
+    <Compile Include="ConformanceTests.fs" />
+    <Compile Include="FrozenOutputTests.fs" />
+    <Compile Include="TokenPreservationTests.fs" />
+    <Compile Include="ParserTests.fs" />
+    <Compile Include="PrinterTests.fs" />
+    <Compile Include="UnicodeTests.fs" />
+    <Compile Include="Utf8Tests.fs" />
+    <Compile Include="AnonymousMethodTests.fs" />
+    <Compile Include="GeneratedTests.fs" />
+    <Compile Include="YamlTests.fs" />
+    <Compile Include="CliTests.fs" />
+    <Compile Include="PropertyTests.fs" />
+    <Compile Include="NativeCliTests.fs" />
+    <Compile Include="PackageTests.fs" />
+    <Compile Include="JsonText.fs" />
+    <Compile Include="CorpusComparison.fs" />
+    <Compile Include="Shrink.fs" />
+    <Compile Include="CorpusComparisonTests.fs" />
+    <Compile Include="Performance.fs" />
+    <Compile Include="ReviewRegressionTests.fs" />
+    <Compile Include="VerifierMutationTests.fs" />
+    <Compile Include="CorpusGateTests.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Expecto" />
+    <PackageReference Include="Expecto.FsCheck" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Csff.Lexer/Csff.Lexer.fsproj" />
+    <ProjectReference Include="../../src/Csff.Parser/Csff.Parser.fsproj" />
+    <ProjectReference Include="../../src/Csff.Printer/Csff.Printer.fsproj" />
+    <ProjectReference Include="../../src/Csff.Conformance/Csff.Conformance.fsproj" />
+    <ProjectReference Include="../../src/Csff.Cli/Csff.Cli.fsproj" />
+    <ProjectReference Include="../Csff.Gate/Csff.Gate.fsproj" />
+    <ProjectReference Include="../Csff.Oracles/Csff.Oracles.fsproj" />
+  </ItemGroup>
+  <Target Name="PublishNativeCli" BeforeTargets="ComputeRunArguments">
+    <MSBuild Projects="../../src/Csff.Cli/Csff.Cli.fsproj" Targets="PublishNative" />
+  </Target>
+</Project>

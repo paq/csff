@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="RoslynOptions.fs" />
+    <Compile Include="RoslynOracle.fs" />
+    <Compile Include="NodeOracle.fs" />
+    <Compile Include="GeneratedOutput.fs" />
+    <Compile Include="Perturbations.fs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../src/Csff.Lexer/Csff.Lexer.fsproj" />
+    <ProjectReference Include="../../src/Csff.Parser/Csff.Parser.fsproj" />
+    <ProjectReference Include="../../src/Csff.Printer/Csff.Printer.fsproj" />
+    <ProjectReference Include="../../src/Csff.Conformance/Csff.Conformance.fsproj" />
+  </ItemGroup>
+</Project>
