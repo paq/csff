@@ -11,7 +11,7 @@ across available cores, and caches results per input root.
 ### Native AOT .NET tool (recommended)
 
 Requires the **.NET 10+ SDK** on supported Native AOT platforms (`linux-x64`, `linux-arm64`,
-`linux-musl-x64`, `linux-musl-arm64`, `osx-x64`, `osx-arm64`, `win-x64`, `win-arm64`).
+`linux-musl-x64`, `linux-musl-arm64`, `osx-arm64`, `win-x64`, `win-arm64`).
 The .NET CLI automatically selects the matching native package for your OS and architecture:
 
 ```sh

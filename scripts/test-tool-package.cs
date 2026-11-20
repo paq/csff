@@ -10,7 +10,6 @@ string[] validRids =
     "linux-arm64",
     "linux-musl-x64",
     "linux-musl-arm64",
-    "osx-x64",
     "osx-arm64",
     "win-x64",
     "win-arm64",
@@ -123,6 +122,9 @@ void VerifyToolPackage(string sourceDir, string id, string toolVersion, string r
         string workspace = Path.Combine(temporary, "workspace");
         Directory.CreateDirectory(workspace);
 
+        // .NET 11 SDK's ShellShimTemplateFinder treats 'any' TFM (Major=0) on non-x64 macOS/Windows
+        // as requiring microsoft.netcore.app.host.<os>-x64 even for Runner="executable" tools.
+        // Map csff/csff.* strictly to the local feed and allow only microsoft.netcore.app.host.* from nuget.org.
         string nugetConfig = Path.Combine(temporary, "nuget.config");
         string escapedSource = SecurityElement.Escape(sourceDir) ?? sourceDir;
         WriteText(
@@ -133,7 +135,17 @@ void VerifyToolPackage(string sourceDir, string id, string toolVersion, string r
               <packageSources>
                 <clear />
                 <add key="local" value="{escapedSource}" />
+                <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
               </packageSources>
+              <packageSourceMapping>
+                <packageSource key="local">
+                  <package pattern="csff" />
+                  <package pattern="csff.*" />
+                </packageSource>
+                <packageSource key="nuget.org">
+                  <package pattern="microsoft.netcore.app.host.*" />
+                </packageSource>
+              </packageSourceMapping>
             </configuration>
             """
         );

@@ -7,7 +7,7 @@
     <PackAsTool>true</PackAsTool>
     <PackageId>csff</PackageId>
     <ToolCommandName>csff</ToolCommandName>
-    <ToolPackageRuntimeIdentifiers>linux-x64;linux-arm64;linux-musl-x64;linux-musl-arm64;osx-x64;osx-arm64;win-x64;win-arm64;any</ToolPackageRuntimeIdentifiers>
+    <ToolPackageRuntimeIdentifiers>linux-x64;linux-arm64;linux-musl-x64;linux-musl-arm64;osx-arm64;win-x64;win-arm64;any</ToolPackageRuntimeIdentifiers>
     <RuntimeIdentifiers Condition="'$(RuntimeIdentifier)' == '' and '$(PublishAot)' != 'true'">any</RuntimeIdentifiers>
     <Version Condition="'$(Version)' == ''">$(CsffBaseVersion)</Version>
     <Description>A fast C# formatter CLI written in F#.</Description>

@@ -102,8 +102,6 @@ jobs:
             rid: linux-x64
           - os: ubuntu-24.04-arm
             rid: linux-arm64
-          - os: macos-15-intel
-            rid: osx-x64
           - os: macos-latest
             rid: osx-arm64
           - os: windows-latest
@@ -297,7 +295,6 @@ jobs:
               "csff.linux-arm64",
               "csff.linux-musl-x64",
               "csff.linux-musl-arm64",
-              "csff.osx-x64",
               "csff.osx-arm64",
               "csff.win-x64",
               "csff.win-arm64",
@@ -351,7 +348,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for rid in linux-x64 linux-arm64 linux-musl-x64 linux-musl-arm64 osx-x64 osx-arm64 win-x64 win-arm64 any; do
+          for rid in linux-x64 linux-arm64 linux-musl-x64 linux-musl-arm64 osx-arm64 win-x64 win-arm64 any; do
             test -f "./out/rid-nupkgs/csff.${rid}.${RELEASE_VERSION}.nupkg"
           done
           test -f "./out/pointer-nupkgs/csff.${RELEASE_VERSION}.nupkg"
@@ -393,7 +390,6 @@ jobs:
               "csff.linux-arm64",
               "csff.linux-musl-x64",
               "csff.linux-musl-arm64",
-              "csff.osx-x64",
               "csff.osx-arm64",
               "csff.win-x64",
               "csff.win-arm64",
