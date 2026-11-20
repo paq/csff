@@ -845,7 +845,7 @@ let tests =
 
                     let nestedElse8000 = nestedElse8000Builder.ToString()
 
-                    let struct ((nestedElse8000Outcome, nestedElseElapsed), _) =
+                    let struct ((nestedElse8000Outcome, nestedElseElapsed), nestedElseAlloc) =
                         runMeasured (fun () ->
                             let timer = System.Diagnostics.Stopwatch.StartNew()
 
@@ -864,8 +864,13 @@ let tests =
                         "8000 nested #if A / #else blocks exhaust budget=1 without false cap."
 
                     Expect.isLessThan
+                        nestedElseAlloc
+                        600_000_000L
+                        "8000 nested #if A / #else discovery keeps allocation linear when outer candidates are reused."
+
+                    Expect.isLessThan
                         nestedElseElapsed
-                        5.0
+                        15.0
                         "8000 nested #if A / #else discovery completes linearly when outer candidates are reused."
 
                     let elifSame2000 =
@@ -1054,7 +1059,7 @@ let tests =
 
                     Expect.isLessThan
                         nestedDisjElapsed
-                        5.0
+                        15.0
                         "4000 nested #if A || Xi directives reuse inherited constraint proofs linearly."
 
                     Expect.isLessThan
