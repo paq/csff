@@ -5,15 +5,28 @@ using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Xml.Linq;
 
-string[] rids = ["linux-x64", "linux-arm64", "osx-x64", "osx-arm64", "win-x64", "win-arm64"];
+string[] rids =
+[
+    "linux-x64",
+    "linux-arm64",
+    "linux-musl-x64",
+    "linux-musl-arm64",
+    "osx-x64",
+    "osx-arm64",
+    "win-x64",
+    "win-arm64",
+];
 string root = Path.GetFullPath(Path.Combine((string)AppContext.GetData("EntryPointFileDirectoryPath")!, ".."));
 
 string? rid = null;
 string? publishDirectory = null;
+bool hasVersionOverride = false;
+string? versionOverride = null;
 string outputDirectory = Path.Combine(root, "out", "releases");
-const string usage = "usage: dotnet run scripts/package-native.cs -- --rid <rid> --publish-directory <dir> [--output-directory <dir>]";
+const string usage = "usage: dotnet run scripts/package-native.cs -- --rid <rid> --publish-directory <dir> [--output-directory <dir>] [--version <version>]";
 
 for (int i = 0; i < args.Length; i++)
 {
@@ -34,6 +47,10 @@ for (int i = 0; i < args.Length; i++)
         case "--output-directory" when i + 1 < args.Length:
             outputDirectory = Path.GetFullPath(args[++i]);
             break;
+        case "--version" when i + 1 < args.Length:
+            hasVersionOverride = true;
+            versionOverride = args[++i];
+            break;
         default:
             return Usage($"unrecognized argument: {args[i]}");
     }
@@ -49,9 +66,17 @@ if (!rids.Contains(rid))
     return Usage($"--rid must be one of {string.Join(", ", rids)}");
 }
 
+if (hasVersionOverride)
+{
+    if (!IsValidReleaseVersion(versionOverride))
+    {
+        return Usage("--version must be a canonical SemVer version without build metadata (e.g. 0.1.0 or 0.1.0-rc.1)");
+    }
+}
+
 try
 {
-    Console.WriteLine(Package(rid, publishDirectory, outputDirectory));
+    Console.WriteLine(Package(rid, publishDirectory, outputDirectory, versionOverride));
     return 0;
 }
 catch (Exception error)
@@ -67,7 +92,14 @@ int Usage(string message)
     return 2;
 }
 
-string Package(string rid, string publishDirectory, string outputDirectory)
+static bool IsValidReleaseVersion(string? value) =>
+    value is not null
+    && Regex.IsMatch(
+        value,
+        @"^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?$"
+    );
+
+string Package(string rid, string publishDirectory, string outputDirectory, string? versionOverride)
 {
     bool windows = rid.StartsWith("win-", StringComparison.Ordinal);
     string source = Path.Combine(publishDirectory, windows ? "Csff.Cli.exe" : "Csff.Cli");
@@ -82,7 +114,9 @@ string Package(string rid, string publishDirectory, string outputDirectory)
     bool dirty = Git("status", "--porcelain").Length > 0;
     string baseVersion = XDocument.Load(Path.Combine(root, "src", "Csff.Cli", "Csff.Cli.fsproj"))
         .Descendants("CsffBaseVersion").First().Value;
-    string version = $"{baseVersion}-g{shortCommit}" + (dirty ? ".dirty" : "");
+    string version = versionOverride is null
+        ? $"{baseVersion}-g{shortCommit}" + (dirty ? ".dirty" : "")
+        : versionOverride;
     string name = $"csff-{version}-{rid}";
     Directory.CreateDirectory(outputDirectory);
 
@@ -174,10 +208,16 @@ string? BinaryRid(string path)
     var header = new byte[64];
     int length = stream.ReadAtLeast(header, header.Length, throwOnEndOfStream: false);
     ReadOnlySpan<byte> bytes = header.AsSpan(0, length);
-    if (length >= 20 && bytes[..4].SequenceEqual("\u007fELF"u8) && bytes[4] == 2 && bytes[5] == 1)
+    if (length >= 64 && bytes[..4].SequenceEqual("\u007fELF"u8) && bytes[4] == 2 && bytes[5] == 1)
     {
         string? architecture = BitConverter.ToUInt16(header, 18) switch { 62 => "x64", 183 => "arm64", _ => null };
-        return architecture is null ? null : "linux-" + architecture;
+        if (architecture is null)
+        {
+            return null;
+        }
+        string? interpreter = ReadElfInterpreter(stream, header);
+        bool musl = interpreter is not null && interpreter.Contains("musl", StringComparison.OrdinalIgnoreCase);
+        return (musl ? "linux-musl-" : "linux-") + architecture;
     }
     if (length >= 8 && bytes[..4].SequenceEqual(new byte[] { 0xcf, 0xfa, 0xed, 0xfe }))
     {
@@ -193,6 +233,51 @@ string? BinaryRid(string path)
             string? architecture = BitConverter.ToUInt16(pe, 4) switch { 0x8664 => "x64", 0xAA64 => "arm64", _ => null };
             return architecture is null ? null : "win-" + architecture;
         }
+    }
+    return null;
+}
+
+static string? ReadElfInterpreter(FileStream stream, byte[] header)
+{
+    ulong phoff = BitConverter.ToUInt64(header, 32);
+    ushort phentsize = BitConverter.ToUInt16(header, 54);
+    ushort phnum = BitConverter.ToUInt16(header, 56);
+    if (phoff == 0 || phentsize < 56 || phnum == 0 || phoff > (ulong)stream.Length)
+    {
+        return null;
+    }
+
+    var entry = new byte[phentsize];
+    for (int i = 0; i < phnum; i++)
+    {
+        ulong offset = phoff + (ulong)i * phentsize;
+        if (offset + phentsize > (ulong)stream.Length)
+        {
+            return null;
+        }
+        stream.Seek((long)offset, SeekOrigin.Begin);
+        if (stream.ReadAtLeast(entry, entry.Length, throwOnEndOfStream: false) != entry.Length)
+        {
+            return null;
+        }
+        uint pType = BitConverter.ToUInt32(entry, 0);
+        if (pType != 3) // PT_INTERP
+        {
+            continue;
+        }
+        ulong pOffset = BitConverter.ToUInt64(entry, 8);
+        ulong pFilesz = BitConverter.ToUInt64(entry, 32);
+        if (pFilesz == 0 || pFilesz > 1024 || pOffset + pFilesz > (ulong)stream.Length)
+        {
+            return null;
+        }
+        var interpBytes = new byte[pFilesz];
+        stream.Seek((long)pOffset, SeekOrigin.Begin);
+        if (stream.ReadAtLeast(interpBytes, interpBytes.Length, throwOnEndOfStream: false) != interpBytes.Length)
+        {
+            return null;
+        }
+        return Encoding.UTF8.GetString(interpBytes).TrimEnd('\0');
     }
     return null;
 }

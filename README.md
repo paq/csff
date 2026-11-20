@@ -88,6 +88,50 @@ public class Inventory
 
 ## Getting started
 
+### Install as a .NET tool (Native AOT)
+
+Install `csff` globally via NuGet (requires the **.NET 10+ SDK** on supported Native AOT
+platforms: `linux-x64`, `linux-arm64`, `linux-musl-x64`, `linux-musl-arm64`, `osx-x64`,
+`osx-arm64`, `win-x64`, `win-arm64`; the CLI automatically selects the matching native
+package):
+
+```sh
+dotnet tool install -g csff
+```
+
+Or run it once without installing:
+
+```sh
+dotnet tool exec csff -- --check .
+```
+
+On other platforms, the .NET CLI falls back to the portable managed package (`csff.any`),
+which requires the **.NET 11 runtime**.
+
+Format all C# files in the current directory:
+
+```sh
+csff .
+```
+
+Check formatting without writing files (for CI or pre-commit hooks):
+
+```sh
+csff --check .
+```
+
+Format a single file or stdin to stdout:
+
+```sh
+csff --write-stdout path/to/File.cs
+cat path/to/File.cs | csff --write-stdout
+```
+
+Standalone Native AOT archives (`.tar.gz` / `.zip`, no .NET installation required) are also
+published on [GitHub Releases](https://github.com/paq/csff/releases).
+
+### Build from source
+
 Build the native executable (requires the .NET SDK pinned in [global.json](global.json)):
 
 ```sh
@@ -96,25 +140,6 @@ dotnet build -t:Native
 
 This writes the binary to `out/csff/bin/Csff.Cli` (`out/csff/bin/Csff.Cli.exe` on
 Windows).
-
-Format all C# files in the current directory:
-
-```sh
-out/csff/bin/Csff.Cli .
-```
-
-Check formatting without writing files (for CI or pre-commit hooks):
-
-```sh
-out/csff/bin/Csff.Cli --check .
-```
-
-Format a single file or stdin to stdout:
-
-```sh
-out/csff/bin/Csff.Cli --write-stdout path/to/File.cs
-cat path/to/File.cs | out/csff/bin/Csff.Cli --write-stdout
-```
 
 ## CLI reference
 

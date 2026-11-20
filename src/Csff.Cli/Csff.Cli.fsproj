@@ -1,6 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <CsffBaseVersion>0.1.0</CsffBaseVersion>
+    <CsffNativeDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../out/csff/bin'))</CsffNativeDirectory>
+    <IsPackable>true</IsPackable>
+    <PackAsTool>true</PackAsTool>
+    <PackageId>csff</PackageId>
+    <ToolCommandName>csff</ToolCommandName>
+    <ToolPackageRuntimeIdentifiers>linux-x64;linux-arm64;linux-musl-x64;linux-musl-arm64;osx-x64;osx-arm64;win-x64;win-arm64;any</ToolPackageRuntimeIdentifiers>
+    <RuntimeIdentifiers Condition="'$(RuntimeIdentifier)' == '' and '$(PublishAot)' != 'true'">any</RuntimeIdentifiers>
+    <Version Condition="'$(Version)' == ''">$(CsffBaseVersion)</Version>
+    <Description>A fast C# formatter CLI written in F#.</Description>
+    <PackageTags>csharp;formatter;cli;tool;aot</PackageTags>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+    <AllowedReferenceRelatedFileExtensions>none</AllowedReferenceRelatedFileExtensions>
+    <StripSymbols>true</StripSymbols>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
     <OptimizationPreference>Speed</OptimizationPreference>
@@ -25,6 +42,20 @@
     <ProjectReference Include="../Csff.Printer/Csff.Printer.fsproj" />
     <ProjectReference Include="../Csff.Conformance/Csff.Conformance.fsproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="README.nuget.md" Pack="true" PackagePath="/README.md" />
+    <None Include="../../LICENSE" Pack="true" PackagePath="/" />
+    <None Include="../../THIRD-PARTY-NOTICES.txt" Pack="true" PackagePath="/" />
+  </ItemGroup>
+  <Target
+    Name="_SelectDefaultToolPackageRuntimeIdentifiers"
+    BeforeTargets="ComputeToolPackageRuntimeIdentifiersToPack"
+    Condition="'$(RuntimeIdentifier)' == ''"
+  >
+    <ItemGroup>
+      <ToolPackageRuntimeIdentifiersToPack Include="any" />
+    </ItemGroup>
+  </Target>
   <Target Name="CsffRuntimeNotices" AfterTargets="Publish" Condition="'$(PublishAot)' == 'true'">
     <PropertyGroup>
       <_CsffRuntimeNotices>$([MSBuild]::EnsureTrailingSlash('$(RuntimePackagePath)'))THIRD-PARTY-NOTICES.TXT</_CsffRuntimeNotices>
@@ -35,13 +66,9 @@
     />
     <Copy SourceFiles="$(_CsffRuntimeNotices)" DestinationFiles="$(PublishDir)DOTNET-THIRD-PARTY-NOTICES.TXT" />
   </Target>
-  <Target Name="StampCsff" AfterTargets="Publish">
+  <Target Name="StampCsff" AfterTargets="Publish" Condition="'$(CsffWriteStamp)' == 'true'">
     <Touch Files="$(PublishDir)csff.stamp" AlwaysCreate="true" />
   </Target>
-  <PropertyGroup>
-    <CsffBaseVersion>0.1.0</CsffBaseVersion>
-    <CsffNativeDirectory>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)../../out/csff/bin'))</CsffNativeDirectory>
-  </PropertyGroup>
   <Target Name="_CollectNativeInputs">
     <ItemGroup>
       <_CsffNativeInput
@@ -60,7 +87,7 @@
     Outputs="$(CsffNativeDirectory)/csff.stamp"
   >
     <Exec
-      Command="dotnet publish &quot;$(MSBuildProjectFullPath)&quot; --configuration Release -p:PublishAot=true --output &quot;$(CsffNativeDirectory)&quot; --disable-build-servers -maxcpucount:1 --nologo --verbosity quiet"
+      Command="dotnet publish &quot;$(MSBuildProjectFullPath)&quot; --configuration Release -p:PublishAot=true -p:CsffWriteStamp=true --output &quot;$(CsffNativeDirectory)&quot; --disable-build-servers -maxcpucount:1 --nologo --verbosity quiet"
     />
   </Target>
 </Project>
